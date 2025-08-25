@@ -1,6 +1,7 @@
 """Agent factory for creating AutoGen agents."""
 
 import os
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import autogen
@@ -9,6 +10,7 @@ from autogen import AssistantAgent, UserProxyAgent
 from .schemas import AgentDefinition, Settings
 from .rag_store import RAGStore
 from .mock_llm import enable_mock_llm
+from .error_recovery import ErrorRecoveryManager
 
 
 class AgentFactory:
@@ -18,13 +20,18 @@ class AgentFactory:
         self.settings = settings
         self.rag_store = rag_store
         self.use_mock_llm = use_mock_llm
+        self.error_recovery = ErrorRecoveryManager(Path(settings.work_dir))
         
-        # Configure LLM for older autogen version
+        # Configure LLM for newer autogen version
+        api_type = settings.llm_binding.api_type
+        if api_type == "open_ai":
+            api_type = "openai"  # Fix for newer autogen version
+            
         self.llm_config = {
             "config_list": [{
                 "model": settings.llm_binding.model_name,
                 "base_url": settings.llm_binding.api_base,
-                "api_type": settings.llm_binding.api_type,
+                "api_type": api_type,
                 "api_key": settings.llm_binding.api_key,
             }],
             "cache_seed": settings.llm_binding.cache_seed,

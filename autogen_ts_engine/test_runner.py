@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 import logging
+from .error_recovery import ErrorRecoveryManager
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +54,7 @@ class TestRunner:
     def __init__(self, project_dir: Path):
         self.project_dir = project_dir
         self.python_executable = sys.executable
+        self.error_recovery = ErrorRecoveryManager(self.project_dir)
     
     def run_all_checks(self) -> ProjectMetrics:
         """Run all tests and quality checks."""

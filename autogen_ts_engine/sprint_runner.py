@@ -145,7 +145,7 @@ class SprintRunner:
             })
             
             if recovery_result.success:
-                self.logger.info(f"Project initialization recovery successful: {recovery_result.action_taken.value}")
+                self.logger.debug(f"Project initialization recovery successful: {recovery_result.action_taken.value}")
                 return True
             else:
                 self.logger.error(f"Project initialization recovery failed: {recovery_result.new_error}")
@@ -232,7 +232,7 @@ class SprintRunner:
             })
             
             if recovery_result.success:
-                self.logger.info(f"Test metrics recovery successful: {recovery_result.action_taken.value}")
+                self.logger.debug(f"Test metrics recovery successful: {recovery_result.action_taken.value}")
                 # Could retry the operation here
                 pass
             else:
@@ -401,7 +401,7 @@ class SprintRunner:
             )
             
             # Start the conversation
-            self.logger.info(f"Starting group chat for sprint {sprint_num}")
+            self.logger.debug(f"Starting group chat for sprint {sprint_num}")
             
             # Get the user proxy agent
             user_proxy = self.agents["user_proxy"]
@@ -427,7 +427,7 @@ class SprintRunner:
             })
             
             if recovery_result.success:
-                self.logger.info(f"Recovery successful: {recovery_result.action_taken.value}")
+                self.logger.debug(f"Recovery successful: {recovery_result.action_taken.value}")
                 # Could retry the operation here
                 pass
             else:
@@ -569,7 +569,7 @@ class SprintRunner:
                     f"Automated sprint completion\n\n{summary}"
                 )
                 if pr_url:
-                    self.logger.info(f"Created PR: {pr_url}")
+                    self.logger.debug(f"Created PR: {pr_url}")
             
         except Exception as e:
             self.logger.error_with_context(e, "Sprint commit creation")

@@ -160,7 +160,6 @@ setup(
 Tests for main application module.
 \"\"\"
 
-import sys
 from pathlib import Path
 from unittest.mock import patch
 

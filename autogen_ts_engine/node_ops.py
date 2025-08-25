@@ -13,6 +13,7 @@ class NodeOps:
     """Node.js and TypeScript project operations."""
     
     def __init__(self, work_dir: Path, config: NodeConfig):
+        self.error_recovery = ErrorRecoveryManager(self.project_dir)
         self.work_dir = work_dir
         self.config = config
         self.package_json_path = work_dir / "package.json"
@@ -234,6 +235,7 @@ export class App {
         # Create test setup
         setup_content = """// Jest setup file
 import '@testing-library/jest-dom';
+from .error_recovery import ErrorRecoveryManager
 
 // Mock blessed for testing
 jest.mock('blessed', () => ({

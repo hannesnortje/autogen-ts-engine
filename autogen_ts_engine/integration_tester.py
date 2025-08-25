@@ -149,7 +149,7 @@ class IntegrationTester:
             )
             
             if test_result.success:
-                logger.info(f"✅ {test_name}: PASSED ({duration:.2f}s)")
+                logger.debug(f"✅ {test_name}: PASSED ({duration:.2f}s)")
             else:
                 logger.warning(f"❌ {test_name}: FAILED ({duration:.2f}s)")
                 test_result.error_message = result.get('error', 'Unknown error')
@@ -908,6 +908,25 @@ integration_testing
             recommendations=recommendations
         )
     
+
+    def _create_test_result(self, success: bool, details: Dict[str, Any] = None, error: str = None) -> Dict[str, Any]:
+        """Helper method to create consistent test results."""
+        result = {"success": success}
+        if details:
+            result["details"] = details
+        if error:
+            result["error"] = error
+        return result
+    
+    def _log_test_result(self, test_name: str, success: bool, duration: float, error: str = None) -> None:
+        """Helper method to log test results consistently."""
+        if success:
+            logger.info(f"✅ {test_name}: PASSED ({duration:.2f}s)")
+        else:
+            logger.warning(f"❌ {test_name}: FAILED ({duration:.2f}s)")
+            if error:
+                logger.error(f"   Error: {error}")
+
     def _save_test_results(self) -> None:
         """Save test results to file."""
         try:
@@ -935,7 +954,7 @@ integration_testing
             with open(results_file, 'w') as f:
                 json.dump(results_data, f, indent=2)
             
-            logger.info(f"Integration test results saved to {results_file}")
+            logger.debug(f"Integration test results saved to {results_file}")
             
         except Exception as e:
             logger.error(f"Failed to save test results: {e}")
