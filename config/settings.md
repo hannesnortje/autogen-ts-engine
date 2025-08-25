@@ -17,7 +17,7 @@ llm_binding:
 work_dir: "./gemini_test_project"
 vector_db_path: "./gemini_project_db"
 git_branch_prefix: "gemini-"
-human_input_mode: "AUTO"
+human_input_mode: "NEVER"
 
 rl:
   epsilon: 0.1

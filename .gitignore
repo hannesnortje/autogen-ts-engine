@@ -1,70 +1,24 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+.venv/ venv/ env/
+dist/ build/ .eggs/ *.egg-info
+.pytest_cache/ .mypy_cache/ .ruff_cache/ .coverage* .cache/
 
-# Virtual environments
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
+# VS Code
 .vscode/
-.idea/
-*.swp
-*.swo
-*~
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
-
-# Project specific
+# Engine outputs / test projects / vector DB
 project_db/
+gemini_project_db/
+scrum/
+work_dir/
 python_project/
-ts_project/
-nodejs_demo/
-react_demo/
-typescript_demo/
-final_system_demo/
-integration_test_project/
-demo-python-project/
+gemini_test_project/
+qa_test_project/
 
-# Logs
+# DB / binary artifacts
+*.sqlite3
+*.db
+*.bin
 *.log
-logs/
-
-# Cache
-.cache/
-.mypy_cache/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
