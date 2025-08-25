@@ -39,11 +39,31 @@ For fast, free testing:
 
 #### Option 1: Install with pipx (Recommended)
 ```bash
-# Install globally with pipx
-pipx install autogen-ts-engine
+# Ensure pipx is available (Ubuntu/Debian)
+sudo apt update && sudo apt install -y pipx
+pipx ensurepath
+```
 
-# Or install from local directory
-pipx install .
+Install directly from GitHub:
+```bash
+# Main branch
+pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@main"
+
+# Or pin to a tag/commit for reproducibility
+pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@v0.1.0"
+pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@<commit-sha>"
+```
+
+Upgrade / reinstall / uninstall:
+```bash
+pipx upgrade autogen-ts-engine
+pipx reinstall --spec "git+https://github.com/hannesnortje/autogen-ts-engine.git@main" autogen-ts-engine
+pipx uninstall autogen-ts-engine
+```
+
+Run via pipx (if no console script is exposed yet):
+```bash
+pipx run --spec "git+https://github.com/hannesnortje/autogen-ts-engine.git@main" python -m autogen_ts_engine.main
 ```
 
 #### Option 2: Install with pip
@@ -183,11 +203,12 @@ llm_binding:
   api_base: "http://localhost:1234/v1"
   model_name: "phi-3-mini-4k-instruct"
   api_type: "open_ai"
-  api_key: "lmstudio"
+  api_key: "lmstudio"     # For LM Studio local server. Do NOT commit real cloud keys.
   cache_seed: 42
 
-work_dir: "./python_project"
-vector_db_path: "./project_db"
+# Write outputs OUTSIDE this repo to avoid nested git repos in VS Code
+work_dir: "~/autogen_projects/python_project"
+vector_db_path: "~/autogen_projects/project_db"
 git_branch_prefix: "sprint-"
 human_input_mode: "NEVER"
 

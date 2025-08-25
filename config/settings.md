@@ -11,11 +11,11 @@ llm_binding:
   provider: "gemini"
   model_name: "gemini-1.5-flash"
   api_type: "google"
-  api_key: "AIzaSyDMxMeiGJTAN0iM1gYoURO4PA0JfhFjdGU"
+  api_key: "${GEMINI_API_KEY}"   # read from environment
   cache_seed: 42
 
-work_dir: "./gemini_test_project"
-vector_db_path: "./gemini_project_db"
+work_dir: "/home/hannesn/autogen_projects/python_project"
+vector_db_path: "/home/hannesn/autogen_projects/project_db"
 git_branch_prefix: "gemini-"
 human_input_mode: "NEVER"
 
