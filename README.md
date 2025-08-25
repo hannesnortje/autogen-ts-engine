@@ -19,14 +19,14 @@ A comprehensive Python package that orchestrates an AutoGen multi-agent system t
 
 ## 🎯 Quick Start
 
-### 1. Install LM Studio (Optional)
+### 1. Install LM Studio (Required for Production)
 
-For full LLM functionality, download and install [LM Studio](https://lmstudio.ai/), then:
+For production use, download and install [LM Studio](https://lmstudio.ai/), then:
 1. Load a model (e.g., Llama 3, Phi-3 Mini)
 2. Start the server on port 1234
 3. Enable the OpenAI-compatible API
 
-**Note**: The engine includes a mock LLM system for development and testing without requiring LM Studio.
+**Note**: The engine includes a mock LLM system for development and testing only. For production use, LM Studio is required.
 
 ### 2. Install the Engine
 
@@ -90,11 +90,11 @@ cp /path/to/autogen-ts-engine/config/* ./config/
 # Navigate to your project directory
 cd /path/to/your/project
 
-# Run with mock LLM (fast, for development)
-python /path/to/autogen-ts-engine/test_mock_engine.py
-
-# Or run with full LLM support (requires LM Studio)
+# Production: Run with LM Studio (recommended for real projects)
 python /path/to/autogen-ts-engine/autogen_ts_engine/main.py
+
+# Development: Run with mock LLM (for testing only)
+python /path/to/autogen-ts-engine/test_mock_engine.py
 
 # For Q&A and improvements on existing projects
 python /path/to/autogen-ts-engine/qa_improvement_runner.py .
@@ -141,7 +141,7 @@ If you want to start over with a clean slate:
 python reset_project.py /path/to/your/project
 
 # Then run the engine to start fresh
-python /path/to/autogen-ts-engine/test_mock_engine.py
+python /path/to/autogen-ts-engine/autogen_ts_engine/main.py
 ```
 
 **What gets reset:**
@@ -439,6 +439,30 @@ work_dir/
 
 ## 🚀 CLI Usage
 
+### **LM Studio vs Mock LLM**
+
+#### **Production Use (LM Studio)**
+```bash
+# Install and start LM Studio first, then run:
+python autogen_ts_engine/main.py
+```
+- ✅ **Full AI capabilities** - Real LLM responses
+- ✅ **Production ready** - Complete project generation
+- ✅ **Multi-agent collaboration** - All agents work together
+- ✅ **Context-aware** - Uses RAG and project memory
+- ⚠️ **Requires LM Studio** - Must be installed and running
+
+#### **Development/Testing (Mock LLM)**
+```bash
+# For testing and development only:
+python test_mock_engine.py
+```
+- ✅ **Fast execution** - No external dependencies
+- ✅ **Testing friendly** - Predictable responses
+- ✅ **Development tool** - Quick iteration
+- ❌ **Limited functionality** - Not for production use
+- ❌ **No real AI** - Mock responses only
+
 ### **Project Lifecycle Management**
 
 #### **1. Create New Project**
@@ -458,11 +482,11 @@ python switch_project_type.py
 
 #### **3. Run Engine**
 ```bash
-# Run with mock LLM (recommended for development)
-python test_mock_engine.py
-
-# Run with full LLM support
+# Production: Run with LM Studio (recommended for real projects)
 python autogen_ts_engine/main.py
+
+# Development: Run with mock LLM (for testing only)
+python test_mock_engine.py
 
 # For Q&A and improvements on existing projects
 python qa_improvement_runner.py /path/to/project
@@ -474,7 +498,7 @@ python qa_improvement_runner.py /path/to/project
 python reset_project.py /path/to/project
 
 # Then run the engine to start fresh
-python /path/to/autogen-ts-engine/test_mock_engine.py
+python /path/to/autogen-ts-engine/autogen_ts_engine/main.py
 ```
 
 ### **Additional Tools**
@@ -555,11 +579,18 @@ ruff check autogen_ts_engine/
 
 ## 🔧 Troubleshooting
 
+### LM Studio Connection Issues
+
+For production use, ensure LM Studio is properly configured:
+
+1. **Install LM Studio**: Download from https://lmstudio.ai/
+2. **Load a Model**: Choose a model like Llama 3 or Phi-3 Mini
+3. **Start Server**: Enable server on port 1234
+4. **Test Connection**: `curl http://localhost:1234/v1/models`
+
 ### Mock LLM Mode
 
-If you encounter LLM connection issues, the engine automatically falls back to mock LLM mode for development and testing.
-
-### LM Studio Connection Issues
+The mock LLM is for development and testing only. For production use, always use LM Studio.
 
 If you see connection errors:
 
