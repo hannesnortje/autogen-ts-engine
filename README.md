@@ -60,16 +60,74 @@ pip install -e ".[dev]"
 pip install -r requirements-dev.txt
 ```
 
-### 3. Create a Project
+### 3. Create a New Project
+
+#### **Quick Start (Recommended)**
+```bash
+# Set up a new project with automatic configuration
+python quick_start_project.py /path/to/your/project
+
+# Example:
+python quick_start_project.py /media/hannesn/code/my-ts-project
+```
+
+#### **Manual Setup**
+```bash
+# Create project directory
+mkdir /path/to/your/project
+cd /path/to/your/project
+
+# Create config directory
+mkdir config
+
+# Copy configuration files from engine
+cp /path/to/autogen-ts-engine/config/* ./config/
+```
+
+### 4. Run the Engine
 
 ```bash
-# Initialize a new Python project (default)
-python test_mock_engine.py
+# Navigate to your project directory
+cd /path/to/your/project
 
-# Or run with full LLM support
-python autogen_ts_engine/main.py
+# Run with mock LLM (fast, for development)
+python /path/to/autogen-ts-engine/test_mock_engine.py
 
-# For different project types, copy the appropriate example:
+# Or run with full LLM support (requires LM Studio)
+python /path/to/autogen-ts-engine/autogen_ts_engine/main.py
+
+# For Q&A and improvements on existing projects
+python /path/to/autogen-ts-engine/qa_improvement_runner.py .
+```
+
+### 5. Project Structure
+
+After running the engine, your project will have this structure:
+
+```
+your-project/
+├── config/
+│   ├── settings.md          # Project configuration
+│   ├── agents.md            # Agent definitions
+│   ├── typescript_example.md # TypeScript template
+│   └── qa_improvement_*.md  # Q&A configuration
+├── src/                     # Source code (created by engine)
+├── tests/                   # Test files (created by engine)
+├── scrum/                   # Sprint artifacts (created by engine)
+├── project_db/              # Vector database (created by engine)
+├── requirements.txt         # Dependencies (created by engine)
+├── setup.py                 # Package setup (created by engine)
+├── pyproject.toml          # Modern Python config (created by engine)
+└── README.md               # Project documentation (created by engine)
+```
+
+### 6. Switch Project Types
+
+```bash
+# Use the project type switcher
+python switch_project_type.py
+
+# Or manually copy configuration examples:
 # cp config/typescript_example.md config/settings.md  # For TypeScript
 # cp config/settings.md config/settings.md           # For Python (default)
 ```
@@ -357,6 +415,16 @@ work_dir/
 
 ## 🚀 CLI Usage
 
+### **Quick Project Setup**
+```bash
+# Set up a new project with automatic configuration
+python quick_start_project.py /path/to/your/project
+
+# Example:
+python quick_start_project.py /media/hannesn/code/my-ts-project
+```
+
+### **Engine Execution**
 ```bash
 # Run with mock LLM (recommended for development)
 python test_mock_engine.py
@@ -364,14 +432,17 @@ python test_mock_engine.py
 # Run with full LLM support
 python autogen_ts_engine/main.py
 
-# Run integration tests
-python test_integration.py
+# For Q&A and improvements on existing projects
+python qa_improvement_runner.py /path/to/project
+```
 
-# Run multi-language demonstration
-python demo_multi_language.py
+### **Project Management**
+```bash
+# Switch between project types
+python switch_project_type.py
 
-# Run final system test
-python test_final_system.py
+# Run Q&A demo
+python demo_qa_improvement.py
 ```
 
 ## 🏗️ Architecture
