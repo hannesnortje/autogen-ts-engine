@@ -1,0 +1,28 @@
+# AutoGen TS Engine Dependencies
+# Core dependencies for the multi-agent development engine
+
+# AutoGen framework
+pyautogen>=0.2.0
+
+# Vector database and embeddings
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# Reinforcement learning
+gymnasium>=0.29.0
+numpy>=1.21.0
+
+# Data validation and configuration
+pydantic>=2.0.0
+markdown-it-py>=3.0.0
+pyyaml>=6.0
+
+# User interface and logging
+rich>=13.0.0
+
+# HTTP and API communication
+requests>=2.28.0
+openai>=1.0.0
+
+# WebSocket communication for IDE integration
+websockets>=11.0.0
