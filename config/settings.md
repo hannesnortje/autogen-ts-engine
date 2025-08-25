@@ -1,7 +1,4 @@
 
-# Gemini Test Configuration
-
-```yaml
 project_name: "gemini_test_project"
 project_goal: "Build a Python web application with FastAPI and modern best practices using Gemini for development."
 project_type: "python"
@@ -43,4 +40,3 @@ project_config:
 debug_mode: false
 auto_commit: true
 create_pr: false
-```
