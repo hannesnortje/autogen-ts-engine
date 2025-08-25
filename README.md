@@ -50,7 +50,6 @@ Install directly from GitHub:
 pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@main"
 
 # Or pin to a tag/commit for reproducibility
-pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@v0.1.0"
 pipx install "git+https://github.com/hannesnortje/autogen-ts-engine.git@<commit-sha>"
 ```
 
