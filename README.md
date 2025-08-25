@@ -132,6 +132,30 @@ python switch_project_type.py
 # cp config/settings.md config/settings.md           # For Python (default)
 ```
 
+### 7. Reset Project (Start Fresh)
+
+If you want to start over with a clean slate:
+
+```bash
+# Reset existing project (removes all generated files)
+python reset_project.py /path/to/your/project
+
+# Then run the engine to start fresh
+python /path/to/autogen-ts-engine/test_mock_engine.py
+```
+
+**What gets reset:**
+- ✅ `scrum/` - All sprint artifacts and history
+- ✅ `src/` - All source code
+- ✅ `tests/` - All test files  
+- ✅ `project_db/` - Vector database and context
+- ✅ Generated files (requirements.txt, setup.py, etc.)
+
+**What's preserved:**
+- ✅ `config/` - Your settings and agent definitions
+- ✅ `config/settings.md` - Project configuration
+- ✅ `config/agents.md` - Agent definitions
+
 ## ⚙️ Configuration
 
 The engine uses Markdown files with YAML blocks for configuration. The main configuration files are:
@@ -415,7 +439,9 @@ work_dir/
 
 ## 🚀 CLI Usage
 
-### **Quick Project Setup**
+### **Project Lifecycle Management**
+
+#### **1. Create New Project**
 ```bash
 # Set up a new project with automatic configuration
 python quick_start_project.py /path/to/your/project
@@ -424,7 +450,13 @@ python quick_start_project.py /path/to/your/project
 python quick_start_project.py /media/hannesn/code/my-ts-project
 ```
 
-### **Engine Execution**
+#### **2. Switch Project Types**
+```bash
+# Switch between Python, TypeScript, React, etc.
+python switch_project_type.py
+```
+
+#### **3. Run Engine**
 ```bash
 # Run with mock LLM (recommended for development)
 python test_mock_engine.py
@@ -436,11 +468,17 @@ python autogen_ts_engine/main.py
 python qa_improvement_runner.py /path/to/project
 ```
 
-### **Project Management**
+#### **4. Reset Project (Start Fresh)**
 ```bash
-# Switch between project types
-python switch_project_type.py
+# Reset existing project (removes all generated files)
+python reset_project.py /path/to/project
 
+# Then run the engine to start fresh
+python /path/to/autogen-ts-engine/test_mock_engine.py
+```
+
+### **Additional Tools**
+```bash
 # Run Q&A demo
 python demo_qa_improvement.py
 ```
