@@ -31,7 +31,7 @@ class QAImprovementRunner:
         self.project_path = Path(project_path)
         self.config_dir = Path(config_dir)
         self.logger = EngineLogger("qa_improvement")
-        self.error_recovery = ErrorRecoveryManager(str(self.project_path))
+        self.error_recovery = ErrorRecoveryManager(self.project_path)
         
         # Load configurations
         self.config_parser = ConfigParser()
@@ -39,28 +39,20 @@ class QAImprovementRunner:
         self.agents = self._load_qa_agents()
         
         # Initialize components
-        self.rag_store = RAGStore(str(self.project_path), self.settings)
+        self.rag_store = RAGStore(self.project_path, self.settings)
         self.agent_factory = AgentFactory(self.settings, self.rag_store, self.logger)
         
     def _load_qa_settings(self) -> Settings:
         """Load Q&A specific settings."""
-        qa_settings_path = self.config_dir / "qa_improvement_settings.md"
-        if qa_settings_path.exists():
-            return self.config_parser.load_settings_from_file(qa_settings_path)
-        else:
-            # Fallback to default settings with Q&A mode
-            settings = self.config_parser.load_settings()
-            settings.work_dir = str(self.project_path)
-            return settings
+        # For now, use default settings with Q&A mode
+        settings = self.config_parser.parse_settings(self.config_dir)
+        settings.work_dir = str(self.project_path)
+        return settings
     
     def _load_qa_agents(self) -> List[AgentDefinition]:
         """Load Q&A specific agents."""
-        qa_agents_path = self.config_dir / "qa_improvement_agents.md"
-        if qa_agents_path.exists():
-            return self.config_parser.load_agents_from_file(qa_agents_path)
-        else:
-            # Fallback to default agents
-            return self.config_parser.load_agents()
+        # For now, use default agents
+        return self.config_parser.parse_agents(self.config_dir)
     
     def index_project(self) -> None:
         """Index the existing project for RAG."""
@@ -70,17 +62,17 @@ class QAImprovementRunner:
             # Index source code
             src_path = self.project_path / "src"
             if src_path.exists():
-                self.rag_store.index_directory(str(src_path))
+                self.rag_store.index_directory(src_path)
             
             # Index tests
             tests_path = self.project_path / "tests"
             if tests_path.exists():
-                self.rag_store.index_directory(str(tests_path))
+                self.rag_store.index_directory(tests_path)
             
             # Index documentation
             docs_path = self.project_path / "docs"
             if docs_path.exists():
-                self.rag_store.index_directory(str(docs_path))
+                self.rag_store.index_directory(docs_path)
             
             # Index README and config files
             for file in ["README.md", "pyproject.toml", "requirements.txt"]:
@@ -93,8 +85,11 @@ class QAImprovementRunner:
         except Exception as e:
             self.error_recovery.handle_error(
                 error=e,
-                context="project_indexing",
-                operation="index_project"
+                context={
+                    "component": "qa_improvement",
+                    "operation": "index_project",
+                    "metadata": {"project_path": str(self.project_path)}
+                }
             )
     
     def analyze_project(self) -> Dict[str, Any]:
@@ -160,8 +155,11 @@ class QAImprovementRunner:
         except Exception as e:
             self.error_recovery.handle_error(
                 error=e,
-                context="project_analysis",
-                operation="analyze_project"
+                context={
+                    "component": "qa_improvement",
+                    "operation": "analyze_project",
+                    "metadata": {"project_path": str(self.project_path)}
+                }
             )
             return analysis_results
     
@@ -238,8 +236,11 @@ class QAImprovementRunner:
             except Exception as e:
                 self.error_recovery.handle_error(
                     error=e,
-                    context="interactive_qa",
-                    operation="process_question"
+                    context={
+                        "component": "qa_improvement",
+                        "operation": "process_question",
+                        "metadata": {"question": question}
+                    }
                 )
                 print(f"❌ Error processing question: {e}")
     
@@ -342,8 +343,11 @@ class QAImprovementRunner:
         except Exception as e:
             self.error_recovery.handle_error(
                 error=e,
-                context="improvement_sprint",
-                operation="run_improvement_sprint"
+                context={
+                    "component": "qa_improvement",
+                    "operation": "run_improvement_sprint",
+                    "metadata": {"focus_areas": focus_areas}
+                }
             )
             return improvement_results
 
