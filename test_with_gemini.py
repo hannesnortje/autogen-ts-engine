@@ -148,7 +148,7 @@ create_pr: false
         
         # Initialize components
         config_parser = ConfigParser()
-        settings = config_parser.parse_settings(config_dir)
+        settings = config_parser.parse_settings(Path(config_dir))
         logger = EngineLogger("gemini_test")
         
         print(f"📋 Project: {settings.project_name}")
@@ -161,7 +161,7 @@ create_pr: false
         print("✅ Sprint runner initialized")
         
         # Load agent definitions
-        agent_definitions = config_parser.parse_agents(config_dir)
+        agent_definitions = config_parser.parse_agents(Path(config_dir))
         print(f"🤖 Loaded {len(agent_definitions)} agents")
         
         # Run a single sprint
@@ -205,7 +205,7 @@ if __name__ == "__main__":
         
         print("✅ Created test project")
         
-        # Initialize Q&A runner
+        # Initialize Q&A runner with proper configuration
         runner = QAImprovementRunner(str(test_project))
         print("✅ Q&A runner initialized")
         
