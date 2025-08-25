@@ -7,10 +7,11 @@ from typing import Dict, List, Optional
 import autogen
 from autogen import AssistantAgent, UserProxyAgent
 
-from .schemas import AgentDefinition, Settings
+from .schemas import AgentDefinition, Settings, LLMProvider
 from .rag_store import RAGStore
 from .mock_llm import enable_mock_llm
 from .error_recovery import ErrorRecoveryManager
+from .gemini_adapter import create_gemini_adapter, is_gemini_available
 
 
 class AgentFactory:
@@ -21,23 +22,40 @@ class AgentFactory:
         self.rag_store = rag_store
         self.use_mock_llm = use_mock_llm
         self.error_recovery = ErrorRecoveryManager(Path(settings.work_dir))
+        self.logger = logging.getLogger(__name__)
         
-        # Configure LLM for newer autogen version
-        api_type = settings.llm_binding.api_type
-        if api_type == "open_ai":
-            api_type = "openai"  # Fix for newer autogen version
-            
-        self.llm_config = {
-            "config_list": [{
-                "model": settings.llm_binding.model_name,
-                "base_url": settings.llm_binding.api_base,
-                "api_type": api_type,
-                "api_key": settings.llm_binding.api_key,
-            }],
-            "cache_seed": settings.llm_binding.cache_seed,
-            "temperature": 0.7,
-            "timeout": 300,  # Increased timeout for slow LM Studio
-        }
+        # Configure LLM based on provider
+        if settings.llm_binding.provider == LLMProvider.GEMINI:
+            # Use Gemini adapter
+            if is_gemini_available():
+                gemini_adapter = create_gemini_adapter(settings.llm_binding)
+                if gemini_adapter:
+                    self.llm_config = gemini_adapter.get_autogen_config()
+                    self.gemini_adapter = gemini_adapter
+                    self.logger.info("Using Gemini LLM provider")
+                else:
+                    self.logger.warning("Failed to create Gemini adapter, falling back to mock LLM")
+                    self.use_mock_llm = True
+            else:
+                self.logger.warning("Gemini not available, falling back to mock LLM")
+                self.use_mock_llm = True
+        else:
+            # Use standard LLM configuration (LM Studio, OpenAI, etc.)
+            api_type = settings.llm_binding.api_type
+            if api_type == "open_ai":
+                api_type = "openai"  # Fix for newer autogen version
+                
+            self.llm_config = {
+                "config_list": [{
+                    "model": settings.llm_binding.model_name,
+                    "base_url": settings.llm_binding.api_base,
+                    "api_type": api_type,
+                    "api_key": settings.llm_binding.api_key,
+                }],
+                "cache_seed": settings.llm_binding.cache_seed,
+                "temperature": 0.7,
+                "timeout": 300,  # Increased timeout for slow LM Studio
+            }
         
         # Enable mock LLM if requested
         if self.use_mock_llm:

@@ -26,13 +26,39 @@ class ProjectType(str, Enum):
     CUSTOM = "custom"
 
 
+class LLMProvider(str, Enum):
+    """Supported LLM providers."""
+    LM_STUDIO = "lm_studio"
+    GEMINI = "gemini"
+    OPENAI = "openai"
+    ANTHROPIC = "anthropic"
+
+
 class LLMBinding(BaseModel):
     """LLM binding configuration."""
+    provider: LLMProvider = Field(default=LLMProvider.LM_STUDIO, description="LLM provider")
     api_base: str = Field(default="http://localhost:1234/v1", description="API base URL")
     model_name: str = Field(default="llama3", description="Model name")
     api_type: str = Field(default="open_ai", description="API type")
     api_key: str = Field(default="lmstudio", description="API key")
     cache_seed: int = Field(default=42, description="Cache seed for reproducibility")
+    
+    @validator("api_base")
+    def validate_api_base(cls, v, values):
+        provider = values.get("provider", LLMProvider.LM_STUDIO)
+        if provider == LLMProvider.GEMINI:
+            # Gemini doesn't need api_base, it uses google-generativeai
+            return ""
+        return v
+    
+    @validator("api_type")
+    def validate_api_type(cls, v, values):
+        provider = values.get("provider", LLMProvider.LM_STUDIO)
+        if provider == LLMProvider.GEMINI:
+            return "google"
+        elif provider == LLMProvider.LM_STUDIO:
+            return "open_ai"
+        return v
 
 
 class RLConfig(BaseModel):

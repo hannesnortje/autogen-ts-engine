@@ -19,14 +19,21 @@ A comprehensive Python package that orchestrates an AutoGen multi-agent system t
 
 ## 🎯 Quick Start
 
-### 1. Install LM Studio (Required for Production)
+### 1. Install LLM Provider
 
+#### **Option A: LM Studio (Production)**
 For production use, download and install [LM Studio](https://lmstudio.ai/), then:
 1. Load a model (e.g., Llama 3, Phi-3 Mini)
 2. Start the server on port 1234
 3. Enable the OpenAI-compatible API
 
-**Note**: The engine includes a mock LLM system for development and testing only. For production use, LM Studio is required.
+#### **Option B: Gemini (Fast Testing)**
+For fast, free testing:
+1. Get a Google API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Set environment variable: `export GOOGLE_API_KEY="your_api_key_here"`
+3. Install Gemini: `pip install google-generativeai`
+
+**Note**: The engine includes a mock LLM system for development and testing only. For production use, LM Studio is recommended.
 
 ### 2. Install the Engine
 
@@ -452,6 +459,18 @@ python autogen_ts_engine/main.py
 - ✅ **Context-aware** - Uses RAG and project memory
 - ⚠️ **Requires LM Studio** - Must be installed and running
 
+#### **Fast Testing (Gemini)**
+```bash
+# Set Google API key and run:
+export GOOGLE_API_KEY="your_api_key_here"
+python autogen_ts_engine/main.py
+```
+- ✅ **Fast responses** - Much faster than LM Studio
+- ✅ **Free tier** - Generous free usage
+- ✅ **No local setup** - No need to download models
+- ✅ **Reliable** - Google's infrastructure
+- ⚠️ **Requires API key** - Must have Google API key
+
 #### **Development/Testing (Mock LLM)**
 ```bash
 # For testing and development only:
@@ -474,9 +493,10 @@ python quick_start_project.py /path/to/your/project
 python quick_start_project.py /media/hannesn/code/my-ts-project
 ```
 
-#### **2. Switch Project Types**
+#### **2. Switch Project Types & LLM Providers**
 ```bash
 # Switch between Python, TypeScript, React, etc.
+# Or switch between LM Studio and Gemini
 python switch_project_type.py
 ```
 
